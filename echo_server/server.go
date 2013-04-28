@@ -13,6 +13,8 @@ var msgchan chan string
 var errchan chan error
 var shutdown chan int
 
+// msglogger and errlogger are really just stubs for actual loggers. We might,
+// for example, be logging to a file or a database.
 func msglogger() {
 	for {
 		msg, ok := <-msgchan
@@ -89,7 +91,10 @@ func main() {
 	close(errchan)
 	close(msgchan)
 
-	// wait for shutdown signal from the two loggers
+	// If we just exited at this point, we might not have given the
+	// two loggers time to properly shutdown. I've chosen to use
+	// a third channel that they send to when their shutdowns are
+	// complete.
 	var closed = 0
 	for {
 		<-shutdown
