@@ -1,0 +1,5 @@
+god: go daemon example
+
+go build && ./god
+
+Try pkilling it, and watch as it does its thing!
